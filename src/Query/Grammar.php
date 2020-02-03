@@ -284,7 +284,6 @@ class Grammar implements IGrammar
     {
         //$value = $this->parameter($where['value']);
         $value = $where['value'];
-        
         // stringify all values if it has NOT an odata enum or special syntax primitive data type
         // (ex. Microsoft.OData.SampleService.Models.TripPin.PersonGender'Female' or datetime'1970-01-01T00:00:00')
         if (!preg_match("/^([\w]+\.)+([\w]+)(\'[\w]+\')$/", $value) && !$this->isSpecialPrimitiveDataType($value)) {
@@ -306,6 +305,10 @@ class Grammar implements IGrammar
      */
     protected function isSpecialPrimitiveDataType($value)
     {
+        return preg_match("/^(binary|datetime|guid|time|datetimeoffset)(\'[\w\:\-\.]+\')$/i", $value);
+    }
+
+    protected function isSpecialPrimitiveDataType($value){
         return preg_match("/^(binary|datetime|guid|time|datetimeoffset)(\'[\w\:\-\.]+\')$/i", $value);
     }
 
@@ -406,9 +409,16 @@ class Grammar implements IGrammar
      */
     protected function concatenate($segments)
     {
-        return implode('', array_filter($segments, function ($value) {
-            return (string) $value !== '';
-        }));
+        // return implode('', array_filter($segments, function ($value) {
+        //     return (string) $value !== '';
+        // }));
+        $uri = '';
+        foreach ($segments as $segment => $value) {
+            if ((string) $value !== '') {
+                $uri.= strpos($uri, '?$') ? '&' . $value : $value;
+            }
+        }
+        return $uri;
     }
 
     /**
@@ -521,8 +531,8 @@ class Grammar implements IGrammar
      */
     private function appendQueryParam(string $value)
     {
-        $param = $this->isFirstQueryParam ? $value : '&' . $value;
-        $this->isFirstQueryParam = false;
-        return $param;
+        //$param = $this->isFirstQueryParam ? $value : '&' . $value;
+        //$this->isFirstQueryParam = false;
+        return $value;
     }
 }
