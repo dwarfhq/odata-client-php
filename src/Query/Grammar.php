@@ -308,10 +308,6 @@ class Grammar implements IGrammar
         return preg_match("/^(binary|datetime|guid|time|datetimeoffset)(\'[\w\:\-\.]+\')$/i", $value);
     }
 
-    protected function isSpecialPrimitiveDataType($value){
-        return preg_match("/^(binary|datetime|guid|time|datetimeoffset)(\'[\w\:\-\.]+\')$/i", $value);
-    }
-
     /**
      * Compile the "order by" portions of the query.
      *
