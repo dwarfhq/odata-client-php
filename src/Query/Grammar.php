@@ -292,10 +292,10 @@ class Grammar implements IGrammar
                 $value = "'".$where['value']."'";
             }
         }
-        
+
         return $where['column'].' '.$this->getOperatorMapping($where['operator']).' '.$value;
     }
-    
+
     /**
      * Test if the value has a forced data type.
      *
@@ -305,10 +305,6 @@ class Grammar implements IGrammar
      */
     protected function isSpecialPrimitiveDataType($value)
     {
-        return preg_match("/^(binary|datetime|guid|time|datetimeoffset)(\'[\w\:\-\.]+\')$/i", $value);
-    }
-
-    protected function isSpecialPrimitiveDataType($value){
         return preg_match("/^(binary|datetime|guid|time|datetimeoffset)(\'[\w\:\-\.]+\')$/i", $value);
     }
 
